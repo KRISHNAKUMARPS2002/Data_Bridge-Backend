@@ -8,7 +8,13 @@ const userRoutes = require("./routes/userRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "*", // This allows any domain to access your API
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(express.json());
 
 // Log all requests
