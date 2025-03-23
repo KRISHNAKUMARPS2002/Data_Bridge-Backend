@@ -23,6 +23,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+// Explicitly handle preflight OPTIONS requests
+app.options("*", cors(corsOptions));
+
 // Log all requests
 app.use((req, res, next) => {
   logger.info(`📥 ${req.method} ${req.url}`);
