@@ -34,6 +34,23 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+// ✅ Explicitly Handle Preflight Requests for CORS
+app.use((req, res, next) => {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://data-bridge-frontend.vercel.app"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+
+  if (req.method === "OPTIONS") {
+    return res.status(204).end(); // ✅ Respond to OPTIONS preflight request immediately
+  }
+
+  next();
+});
+
 // ✅ Log all requests
 app.use((req, res, next) => {
   logger.info(`📥 ${req.method} ${req.url}`);
