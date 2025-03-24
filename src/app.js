@@ -8,12 +8,22 @@ const userRoutes = require("./routes/userRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 
 const app = express();
+
+// ✅ Force HTTPS when behind Nginx
+app.use((req, res, next) => {
+  if (req.headers["x-forwarded-proto"] !== "https") {
+    return res.redirect("https://" + req.headers.host + req.url);
+  }
+  next();
+});
+
 // In your Express app.js file
 const corsOptions = {
   origin: [
     "http://localhost:3000",
     "http://localhost:3001",
     "https://sysmac.co.in",
+    "https://data-bridge-frontend.vercel.app/",
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
