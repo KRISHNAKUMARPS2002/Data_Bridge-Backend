@@ -9,14 +9,6 @@ const customerRoutes = require("./routes/customerRoutes");
 
 const app = express();
 
-// ✅ Force HTTPS when behind Nginx
-app.use((req, res, next) => {
-  if (req.headers["x-forwarded-proto"] !== "https") {
-    return res.redirect("https://" + req.headers.host + req.url);
-  }
-  next();
-});
-
 // In your Express app.js file
 const corsOptions = {
   origin: [
